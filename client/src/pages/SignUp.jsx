@@ -27,7 +27,7 @@ export default function SignUp() {
       const data = await res.json();
       if (data.success === false) {
         setLoading(false);
-        setError(data.messsage);
+        setError(data.message);
         return;
       }
       setLoading(false);
@@ -35,7 +35,7 @@ export default function SignUp() {
       navigate("/sign-in");
     } catch (error) {
       setLoading(false);
-      setError(error.messsage);
+      setError(error.message);
     }
   };
   return (
