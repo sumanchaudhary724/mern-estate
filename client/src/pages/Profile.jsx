@@ -118,7 +118,9 @@ export default function Profile() {
         return;
       }
       dispatch(deleteUserSuccess(data));
-    } catch (error) {}
+    } catch (error) {
+      dispatch(deleteUserFailure(data.message));
+    }
   };
   return (
     <div className="p-3 max-w-lg mx-auto">
