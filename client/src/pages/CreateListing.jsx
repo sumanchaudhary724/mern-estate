@@ -198,7 +198,11 @@ export default function CreateListing() {
                   alt="listing image"
                   className="w-20 h-20 object-contain rounded-lg"
                 />
-                <button className="p-3 text-red-700 rounded-lg uppercase hover:opacity-95">
+                <button
+                  type="button"
+                  onClick={handleRemoveImage}
+                  className="p-3 text-red-700 rounded-lg uppercase hover:opacity-95"
+                >
                   Delete
                 </button>
               </div>
