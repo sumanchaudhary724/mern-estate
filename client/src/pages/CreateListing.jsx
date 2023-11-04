@@ -11,9 +11,12 @@ export default function CreateListing() {
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({ imageUrls: [] });
   const [imageUploadError, setImageUploadError] = useState(false);
+  const [uploading, setUploading] = useState(false);
   console.log(formData);
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
+      setUploading(true);
+      setImageUploadError(true);
       const promises = [];
 
       for (let i = 0; i < files.length; i++) {
@@ -26,12 +29,15 @@ export default function CreateListing() {
             imageUrls: formData.imageUrls.concat(urls),
           });
           setImageUploadError(false);
+          setUploading(false);
         })
         .catch((err) => {
           setImageUploadError("Image upload failed (2 mb max per image)");
+          setUploading(false);
         });
     } else {
       setImageUploadError("You can only upload 6 images per listing");
+      setUploading(false);
     }
   };
 
@@ -57,6 +63,13 @@ export default function CreateListing() {
           });
         }
       );
+    });
+  };
+
+  const handleRemoveImage = (index) => {
+    setFormData({
+      ...formData,
+      imageUrls: formData.imageUrls.filter((_, i) => i !== index),
     });
   };
   return (
@@ -183,16 +196,17 @@ export default function CreateListing() {
             />
             <button
               type="button"
+              disabled={uploading}
               onClick={handleImageSubmit}
               className="p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80 "
             >
-              Upload
+              {uploading ? "Uploading..." : "Upload"}
             </button>
           </div>
           <p className="text-red-700">{imageUploadError && imageUploadError}</p>
           {formData.imageUrls.length > 0 &&
-            formData.imageUrls.map((url) => (
-              <div className="flex justify-between">
+            formData.imageUrls.map((url, index) => (
+              <div key={url} className="flex justify-between">
                 <img
                   src={url}
                   alt="listing image"
@@ -200,14 +214,14 @@ export default function CreateListing() {
                 />
                 <button
                   type="button"
-                  onClick={handleRemoveImage}
+                  onClick={() => handleRemoveImage(index)}
                   className="p-3 text-red-700 rounded-lg uppercase hover:opacity-95"
                 >
                   Delete
                 </button>
               </div>
             ))}
-          <button className="flex justify-between p-3 border  text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
+          <button className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
             Create Listing
           </button>
         </div>
