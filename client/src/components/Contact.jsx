@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
 export default function Contact({ listing }) {
   const [landlord, setLandlord] = useState(null);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("    ");
   const onChange = (e) => {
-    setMessage(e.target.value);
+    setMessage(e.terget.value);
   };
 
   useEffect(() => {
@@ -23,9 +22,9 @@ export default function Contact({ listing }) {
   return (
     <>
       {landlord && (
-        <div className="flex flex-col gap-2">
+        <div className="">
           <p>
-            Contact <span className="font-semibold">{landlord.username}</span>{" "}
+            Contact <span className="font-semibold">{landlord.username}</span>
             for{" "}
             <span className="font-semibold">{listing.name.toLowerCase()}</span>
           </p>
@@ -35,16 +34,7 @@ export default function Contact({ listing }) {
             rows="2"
             value={message}
             onChange={onChange}
-            placeholder="Enter your message here..."
-            className="w-full border p-3 rounded-lg"
           ></textarea>
-
-          <Link
-            to={`mailto:${landlord.email}?subject=Regarding ${listing.name}&body=${message}`}
-            className="bg-slate-700 text-white text-center p-3 uppercase rounded-lg hover:opacity-95"
-          >
-            Send Message
-          </Link>
         </div>
       )}
     </>
